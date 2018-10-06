@@ -1,0 +1,38 @@
+title_box:
+  x: 75
+  y: 75
+  width: 450
+  height: 165
+
+title:
+  x: 75
+  y: 75
+  width: 450
+  height: 165
+  align: center
+  valign: middle
+  font: Sans 14
+
+description:
+  x: 100
+  y: 245
+  width: 400
+  height: 485
+  font: Times New Roman, Serif 10
+
+
+# The "cut line", without rounded corners
+cut:
+  x: 37.5
+  y: 37.5
+  radius: 16
+  width: 525
+  height: 750
+
+# The "safe zone" as defined by TheGameCrafter poker cards
+safe:
+  x: 75
+  y: 75
+  width: 450
+  height: 675
+  dash: 3 3
