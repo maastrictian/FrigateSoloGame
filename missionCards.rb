@@ -8,7 +8,7 @@ File.open("my_data.csv", 'wb') do |file|
     file << buffer
 end
 
-data = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header, value|
+missiondata = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header, value|
   case header
   when 'Cost'
     "$#{value}k" # e.g. "3" becomes "$3k"
@@ -17,7 +17,7 @@ data = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header
   end
 end
 
-num_cards = data['Number'].size 
+num_cards = missiondata['Number'].size 
 
 
 Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
@@ -25,8 +25,8 @@ Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
   rect layout: 'cut'
   rect layout: 'safe'
   rect layout: 'title_box'
-  text str: data['Title'], layout: 'title'
-  text str: data['Description'], layout: 'description'
+  text str: missiondata['Title'], layout: 'title'
+  text str: missiondata['Description'], layout: 'description'
   text str: 'Mission', layout: 'type'
   save_png prefix: 'missionCard_'
 end
@@ -38,7 +38,7 @@ File.open("my_data.csv", 'wb') do |file|
     file << buffer
 end
 
-data = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header, value|
+weatherdata = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header, value|
   case header
   when 'Cost'
     "$#{value}k" # e.g. "3" becomes "$3k"
@@ -47,19 +47,46 @@ data = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header
   end
 end
 
-num_cards = data['Number'].size 
-
+num_cards = weatherdata['Number'].size 
 
 Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
   background color: '#99D8E6'
   rect layout: 'cut'
   rect layout: 'safe'
   rect layout: 'title_box'
-  text str: data['Title'], layout: 'title'
-  text str: data['Description'], layout: 'description'
+  text str: weatherdata['Title'], layout: 'title'
+  text str: weatherdata['Description'], layout: 'description'
   text str: 'Weather', layout: 'type'
   save_png prefix: 'weatherCard_'
 end
+
+# combined cards
+missiondata.each do |mission|
+mission['BGColor'] = '#ff69b4'
+end
+
+weatherdata.each do |weather|
+weather['BGColor'] = '#99D8E6'
+end
+
+
+data = missiondata + weatherdata
+
+num_cards = data['Number'].size 
+num_cards = (18-(num_cards%18)) + num_cards
+
+Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
+  background color: data['BGColor']
+  rect layout: 'cut'
+  rect layout: 'safe'
+  rect layout: 'title_box'
+  text str: data['Title'], layout: 'title'
+  text str: data['Description'], layout: 'description'
+  text str: 'Weather', layout: 'type'
+  save_png prefix: 'combinedCard_'
+  save_sheet sprue: 'formats/sheet.yml', prefix: 'aaafinal_'
+end
+
 
 
 # Coastal Raiding Events General
@@ -102,16 +129,15 @@ end
 
 end
 
-=begin
 # Patrol Events General
 backgroundColor = '#ADD8E6'
 
-sheetIDs = ['2078396274','870396774','1449022118']
+sheetIDs = ['806677367']
 
-# Patrol Events - Sheet Loop
+# Patrol Events - No Seasons
 sheetIDs.each do |sheetID|
 
-buffer = open("https://docs.google.com/spreadsheets/d/1pULEeEm4ZWrd5UFRt6UDcUxDT_HwkAMLysPvrWGW9zs/export?format=csv&gid=#{sheetID}").read
+buffer = open("https://docs.google.com/spreadsheets/d/1WNg1cdciCMwPENsZ2pCgi9yAbj60scBiORGz-YhYB3E/export?format=csv&gid=#{sheetID}").read
 numCards = CSV.parse(buffer).length - 1 #CSV counts the header row; we only want the number of cards.
 File.open("my_data.csv", 'wb') do |file|
     file << buffer
@@ -141,7 +167,45 @@ Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
   save_png prefix: 'patrol_' + data['Area'][0] + '_'
 end
 
+seasons = ['All Seasons','Spring','Summer','Autumn','Winter']
+sheetIDs = ['0','2078396274','1678764129','870396774','1449022118','1552140278']
+
+# Patrol Events - Seasons
+sheetIDs.each do |sheetID|
+
+buffer = open("https://docs.google.com/spreadsheets/d/1WNg1cdciCMwPENsZ2pCgi9yAbj60scBiORGz-YhYB3E/export?format=csv&gid=#{sheetID}").read
+numCards = CSV.parse(buffer).length - 1 #CSV counts the header row; we only want the number of cards.
+File.open("my_data.csv", 'wb') do |file|
+    file << buffer
 end
 
-=end
+seasons.each do |season|
+
+data = Squib.csv(file: 'my_data.csv', strip: true, explode: season) do |header, value|
+  case header
+  when 'Cost'
+    "$#{value}k" # e.g. "3" becomes "$3k"
+  else
+    value # always return the original value if you didn't do anything to it
+  end
+end
+
+num_cards = data[season].size 
+
+
+Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
+  background color: backgroundColor
+  rect layout: 'cut'
+  rect layout: 'safe'
+  rect layout: 'title_box'
+  text str: data['Title'], layout: 'title'
+  text str: data['Description'], layout: 'description'
+  text str: data['Type'], layout: 'type'
+  text str: data['Area'], layout: 'subtype'
+  save_png prefix: 'patrol_' + data['Area'][0] + '_' + season + '_'
+end
+
+end #seasons
+end #sheetIDs
+end
 

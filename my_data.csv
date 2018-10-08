@@ -1,10 +1,7 @@
-Number,Title,Description,Area,Type
-1,Paymaster's Chest,"The raiding party learns that the local garrison's pay is held in a nearby fort.  1D6: 1-3 the raid fails. 4-6 the chest of gold is taken, score 2 VP.",Barbary Coast,Raiding Event
-2,Local Intelligence,Look at the top three patrol cards in the area.  Discard any number of them.  Return the rest to the top of the patrol deck face up and in any order.,Barbary Coast,Raiding Event
-2,Enemy Captain's Measure,Keep this card.  The next time you fight an enemy warship discard this card to gain a +2 bonus to Enemy ship vs. Friendly ship fire.,Barbary Coast,Raiding Event
-1,Galley Slaves Freed,Gain 1 VP and 1 crew or 2 VP.,Barbary Coast,Raiding Event
-2,Spike the guns,The raid does serious damage to the port defenses here.  Keep this card.  The next time you raid in this area discard this card to gain a -2 bonus to coastal raiding.,Barbary Coast,Raiding Event
-1,A Duel,"Select an Officer to duel the leader of the local garrison.  1D6: 1-2 the Officer is killed.  3-6 the Officer wins, score 2 VP.",Barbary Coast,Raiding Event
-1,Pasha Awed,A local pasha is impressed with the ship's might and opens his port to the ship.  Next turn (only) treat Barbary Coast as a minor port.,Barbary Coast,Raiding Event
-2,False Flag,The crew captures colorful cloth with which they can make a Spanish flag.  Keep this card.  Discard after flight is rolled to automatically escape an enemy ship.,Barbary Coast,Raiding Event
-1,Rich Ships in Harbor,"Roll to determine the merchants that may be taken as prizes, if any, with an additional +2 bonus.",Barbary Coast,Raiding Event
+Number,Title,Description
+8,Storm,Must choose patrol as your action.  During the patrol there is a bonus to flight and a penalty to chasing.  During the resolve weather effects phase take 1 rigging damage.
+8,Levanter,"Must select transfer to a different area as your action, choosing an area east of your present location.  Durring the resolve weather effects phase take 1 rigging damage."
+8,Mistral,"Must select transfer to a different area as your action, choosing an area south of your present location. Durring the resolve weather effects phase take 1 rigging damage."
+8,Poor Weather,Modifiers to chases and coastal raiding. 
+8,Becalmed,Cannot transfer to a different area as your action.
+1,Clear Skies,No weather effect.
