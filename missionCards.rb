@@ -60,7 +60,26 @@ Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
   save_png prefix: 'weatherCard_'
 end
 
-data = missiondata
+# Combined Cards
+
+buffer1 = open("https://docs.google.com/spreadsheets/d/1XnzOHjy5nis4R9Oes4dEJUuuCuq6cRq9RvQAAvNYV0c/export?format=csv&gid=0").read
+buffer2 = open("https://docs.google.com/spreadsheets/d/1crQ35nYeLrl5EukgnZ58TKrB_YCth4eEvFc-DyE1fK8/export?format=csv&gid=0").read
+#magic code here that inserts colors
+buffer = buffer1 + ',' + buffer2
+numCards = CSV.parse(buffer).length - 1 #CSV counts the header row; we only want the number of cards.
+File.open("my_data.csv", 'wb') do |file|
+    file << buffer
+end
+
+
+data = Squib.csv(file: 'my_data.csv', strip: true, explode: 'Number') do |header, value|
+  case header
+  when 'Cost'
+    "$#{value}k" # e.g. "3" becomes "$3k"
+  else
+    value # always return the original value if you didn't do anything to it
+  end
+end
 
 num_cards = data['Number'].size 
 num_cards = (18-(num_cards%18)) + num_cards
