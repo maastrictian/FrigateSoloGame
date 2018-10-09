@@ -60,23 +60,13 @@ Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
   save_png prefix: 'weatherCard_'
 end
 
-# combined cards
-missiondata.each do |mission|
-mission['BGColor'] = '#ff69b4'
-end
-
-weatherdata.each do |weather|
-weather['BGColor'] = '#99D8E6'
-end
-
-
-data = missiondata + weatherdata
+data = missiondata
 
 num_cards = data['Number'].size 
 num_cards = (18-(num_cards%18)) + num_cards
 
 Squib::Deck.new cards: num_cards, layout: 'formats/GameCards.yml' do
-  background color: data['BGColor']
+  background color: '#FFFFFF'
   rect layout: 'cut'
   rect layout: 'safe'
   rect layout: 'title_box'
@@ -208,4 +198,3 @@ end
 end #seasons
 end #sheetIDs
 end
-
